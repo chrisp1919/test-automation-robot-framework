@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+
+  proxy:
+    image: tivix/docker-nginx:v16
+    environment:
+      - UPSTREAMS=/:backend:8000
+    ports:
+      - 8080:80
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend:/app
+    command: dev
